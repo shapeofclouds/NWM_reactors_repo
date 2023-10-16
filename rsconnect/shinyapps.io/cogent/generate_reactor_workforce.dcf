@@ -1,0 +1,11 @@
+name: generate_reactor_workforce
+title: generate_reactor_workforce
+username:
+account: cogent
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10191389
+bundleId: 7803312
+url: https://cogent.shinyapps.io/generate_reactor_workforce/
+when: 1697301236.61259
+lastSyncTime: 1697301236.6126
