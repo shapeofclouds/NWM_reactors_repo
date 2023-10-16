@@ -9,8 +9,29 @@
 
 library(shiny)
 
+source("./source_files/colours.R", local = TRUE)
+
+
+
 # Define UI for application that draws a histogram
 fluidPage(
+  tags$style(HTML(".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {background: #E40303}")),
+  tags$style(HTML(".js-irs-1 .irs-single, .js-irs-1 .irs-bar-edge, .js-irs-1 .irs-bar {background: #E40303}")),
+  tags$style(HTML(".js-irs-2 .irs-single, .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {background: #E40303}")),
+  tags$style(HTML(".js-irs-3 .irs-single, .js-irs-3 .irs-bar-edge, .js-irs-3 .irs-bar {background: #E40303}")),
+  
+  tags$style(HTML(".js-irs-4 .irs-single, .js-irs-4 .irs-bar-edge, .js-irs-4 .irs-bar {background: blue}")),
+  tags$style(HTML(".js-irs-5 .irs-single, .js-irs-5 .irs-bar-edge, .js-irs-5 .irs-bar {background: blue}")),
+  tags$style(HTML(".js-irs-6 .irs-single, .js-irs-6 .irs-bar-edge, .js-irs-6 .irs-bar {background: blue}")),
+  
+  tags$style(HTML(".js-irs-7 .irs-single, .js-irs-7 .irs-bar-edge, .js-irs-7 .irs-bar {background: green}")),
+  tags$style(HTML(".js-irs-8 .irs-single, .js-irs-8 .irs-bar-edge, .js-irs-8 .irs-bar {background: green}")),
+  tags$style(HTML(".js-irs-9 .irs-single, .js-irs-9 .irs-bar-edge, .js-irs-9 .irs-bar {background: green}")),
+  tags$style(HTML(".js-irs-10 .irs-single, .js-irs-10 .irs-bar-edge, .js-irs-10 .irs-bar {background: green}")),
+  
+  tags$style(HTML(".js-irs-11 .irs-single, .js-irs-11 .irs-bar-edge, .js-irs-11 .irs-bar {background: #FF8C00}")),
+  tags$style(HTML(".js-irs-12 .irs-single, .js-irs-12 .irs-bar-edge, .js-irs-12 .irs-bar {background: #FF8C00}")),
+  tags$style(HTML(".js-irs-13 .irs-single, .js-irs-13 .irs-bar-edge, .js-irs-13 .irs-bar {background: #FF8C00}")),
 
   tags$head(
     tags$style(HTML("hr {border-top: 3px solid #555555;}"))
@@ -23,42 +44,42 @@ fluidPage(
         sidebarPanel(fluidRow(column(5,
             sliderInput("civ_peak",
                         "Civils Peak:",
-                        min = 1,
+                        min = 0,
                         max = 5000,
-                        value = 1000),
+                        value = 370),
             
             sliderInput("civ_pos",
                         "Civils Position:",
-                        min = 1,
+                        min = 0,
                         max = 30,
-                        value = 20),
+                        value = 9),
             
             
             sliderInput("civ_width",
                         "Civils Width:",
                         min = 0,
                         max = 50,
-                        value = 6),
+                        value = 12),
             
             sliderInput("civ_skew",
                         "Civils skew:",
-                        min = 0-5,
+                        min = -5,
                         max = 5,
-                        value = 0),
+                        value = 3),
             
             hr(),
             
             sliderInput("operations_limit",
                         "Operations max:",
-                        min = 1,
+                        min = 0,
                         max = 2000,
                         value = 300),
             
             sliderInput("operations_pos",
                         "Operations position:",
-                        min = 1,
-                        max = 100,
-                        value = 25),
+                        min = -24,
+                        max = 72,
+                        value = 40),
             
             
             sliderInput("operations_width",
@@ -66,7 +87,7 @@ fluidPage(
                         min = 0,
                         max = 5,
                         step = 0.1,
-                        value = 2)),
+                        value = 0.6)),
             
            
             
@@ -76,40 +97,40 @@ fluidPage(
                                "MEH Peak:",
                                min = 0,
                                max = 5000,
-                               value = 1000),
+                               value = 270),
                    
                    sliderInput("meh_pos",
                                "MEH Position:",
                                min = 0,
                                max = 100,
-                               value = 30),
+                               value = 20),
                    
                    sliderInput("meh_width",
                                "MEH Width:",
                                min = 1,
                                max = 50,
-                               value = 5),
+                               value = 11),
                    
                    sliderInput("meh_skew",
                                "MEH skew:",
-                               min = 0-5,
+                               min = 0,
                                max = 5,
-                               value = 0),
+                               value = 3),
         
                    hr(),
                    
                        
             sliderInput("factory_limit",
                         "Factory max:",
-                        min = 1,
+                        min = 0,
                         max = 2000,
-                        value = 300),
+                        value = 1400),
             
             sliderInput("factory_pos",
                         "Factory position:",
-                        min = -20,
+                        min = -48,
                         max = 80,
-                        value = 0),
+                        value = -2),
             
             
             sliderInput("factory_width",
@@ -117,7 +138,7 @@ fluidPage(
                         min = 0,
                         max = 5,
                         step =0.1,
-                        value = 2)),
+                        value = 2.3)),
             
             
         )),
