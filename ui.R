@@ -200,7 +200,7 @@ fluidPage(
                             
                         ),
 ##Civils####                        
-            column(1,textInput('input', 'Role Name', value="Major Civils")),
+            column(1,textInput('input', span(id = "civils",'Role Name'), value="Major Civils")),
              
           #  tags$span("#mechrole1_frac {color : red;}"),
             
@@ -211,16 +211,16 @@ fluidPage(
 
              
              column(1,
-                    numericInput("mechrole1_frac", span(id = "civils", "Role1 L12 (%)"), value = defaultCivilsL12,  min = 0, max = 100,
+                    numericInput("mechrole1_L12", span(id = "civils", "Role1 L12 (%)"), value = defaultCivilsL12,  min = 0, max = 100,
                                  width = '100px')),
              column(1,
-                    numericInput("mechrole1_frac", span(id = "civils", "Role1 L34 (%)"), value = defaultCivilsL34,  min = 0, max = 100,
+                    numericInput("mechrole1_L34=34", span(id = "civils", "Role1 L34 (%)"), value = defaultCivilsL34,  min = 0, max = 100,
                                  width = '100px')),
              column(1,
-                    numericInput("mechrole1_frac", span(id = "civils", "Role1 L56 (%)"), value = defaultCivilsL56,  min = 0, max = 100,
+                    numericInput("mechrole1_L56", span(id = "civils", "Role1 L56 (%)"), value = defaultCivilsL56,  min = 0, max = 100,
                                  width = '100px')),
              column(1,
-                    numericInput("mechrole1_frac", span(id = "civils", "Role1 L78 (%)"), value = defaultCivilsL78,  min = 0, max = 100,
+                    numericInput("mechrole1_L78", span(id = "civils", "Role1 L78 (%)"), value = defaultCivilsL78,  min = 0, max = 100,
                                  width = '100px'))),
              
             fluidRow(
@@ -229,21 +229,21 @@ fluidPage(
              column(1, offset = 1, textInput('input', span(id = "civils", 'Role Name'), value="Minor Civils")),   
             
              column(1, 
-                    numericInput("mechrole1_frac", span(id = "civils", "Role2 (%)"), value = defaultCivilsL12,  min = 0, max = 100,
+                    numericInput("mechrole2_frac", span(id = "civils", "Role2 (%)"), value = defaultCivilsL12,  min = 0, max = 100,
                                  width = '100px')),
              
              
              column(1,
-                    numericInput("mechrole1_frac", span(id = "civils","Role2 L12 (%)"), value = defaultCivilsL12,  min = 0, max = 100,
+                    numericInput("mechrole2_L12", span(id = "civils","Role2 L12 (%)"), value = defaultCivilsL12,  min = 0, max = 100,
                                  width = '100px')),
              column(1,
-                    numericInput("mechrole1_frac", span(id = "civils", "Role2 L34 (%)"), value = defaultCivilsL34,  min = 0, max = 100,
+                    numericInput("mechrole2_L34", span(id = "civils", "Role2 L34 (%)"), value = defaultCivilsL34,  min = 0, max = 100,
                                  width = '100px')),
              column(1,
-                    numericInput("mechrole1_frac", span(id = "civils","Role2 L56 (%)"), value = defaultCivilsL56,  min = 0, max = 100,
+                    numericInput("mechrole2_L56", span(id = "civils","Role2 L56 (%)"), value = defaultCivilsL56,  min = 0, max = 100,
                                  width = '100px')),
              column(1,
-                    numericInput("mechrole1_frac", span(id = "civils", "Role2 L78 (%)"), value = defaultCivilsL78,  min = 0, max = 100,
+                    numericInput("mechrole1_L78", span(id = "civils", "Role2 L78 (%)"), value = defaultCivilsL78,  min = 0, max = 100,
                                  width = '100px'))),
   ####        
        
