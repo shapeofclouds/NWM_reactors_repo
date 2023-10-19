@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(openxlsx)
 
 source("./source_files/colours.R", local = TRUE)
 
@@ -183,7 +184,10 @@ fluidPage(
                         min = 0,
                         max = 5,
                         step =0.1,
-                        value = 2.3))#,
+                        value = 2.3)),
+            
+            
+            downloadButton("dl", "Download")
          #   column(2,
                    
                    #numericInput("civil_frac", "Civils (%)", value = 100,  min = 0, max = 100,
@@ -292,7 +296,7 @@ fluidPage(
  
  fluidRow(
    
-   column(1, offset = 1, textInput('civilsName4', span(id = "civils", 'Role Name'), value="-")), 
+   column(1, offset = 1, textInput('civilsName4', span(id = "civils", 'Role Name'), value="")), 
    
    column(1, 
           numericInput("civilsRole4", span(id = "civils", "Role4 (%)"), value = defaultCivilsLRole4,  min = 0, max = 100,
@@ -327,13 +331,13 @@ fluidPage(
                  numericInput("mehRole1_L12", span(id = "meh", "Role1 L12 (%)"), value = defaultMEHL12,  min = 0, max = 100,
                               width = '100px')),
           column(1,
-                 numericInput("mehRole1_L12", span(id = "meh","Role1 L34 (%)"), value = defaultMEHL34,  min = 0, max = 100,
+                 numericInput("mehRole1_L34", span(id = "meh","Role1 L34 (%)"), value = defaultMEHL34,  min = 0, max = 100,
                               width = '100px')),
           column(1,
-                 numericInput("mehRole1_L12", span(id = "meh","Role1 L56 (%)"), value = defaultMEHL56,  min = 0, max = 100,
+                 numericInput("mehRole1_L56", span(id = "meh","Role1 L56 (%)"), value = defaultMEHL56,  min = 0, max = 100,
                               width = '100px')),
           column(1,
-                 numericInput("mehRole1_L12", span(id = "meh","Role1 L78 (%)"), value = defaultMEHL78,  min = 0, max = 100,
+                 numericInput("mehRole1_L78", span(id = "meh","Role1 L78 (%)"), value = defaultMEHL78,  min = 0, max = 100,
                               width = '100px'))),
  
  fluidRow(
@@ -386,7 +390,7 @@ fluidPage(
  
  fluidRow(
    
-   column(1, offset = 1, textInput('mehName4', span(id = "meh",'Role Name'), value="-")), 
+   column(1, offset = 1, textInput('mehName4', span(id = "meh",'Role Name'), value="")), 
    
    column(1, 
           numericInput("mehRole4", span(id = "meh","Role4 (%)"), value = defaultMEHRole4,  min = 0, max = 100,
@@ -481,10 +485,10 @@ fluidPage(
  
  fluidRow(
    
-   column(1, offset = 1, textInput('operationsName4', span(id = "operations",'Role Name'), value="-")), 
+   column(1, offset = 1, textInput('operationsName4', span(id = "operations",'Role Name'), value="")), 
    
    column(1, 
-          numericInput("operationsRole4_L12", span(id = "operations","Role4 (%)"), value = defaultOpsRole4,  min = 0, max = 100,
+          numericInput("operationsRole4", span(id = "operations","Role4 (%)"), value = defaultOpsRole4,  min = 0, max = 100,
                        width = '100px')),
    
    column(1,
@@ -576,7 +580,7 @@ fluidRow(
 
 fluidRow(
   
-  column(1, offset = 1, textInput('factoryName4', span(id = "factory",'Role Name'), value="-")), 
+  column(1, offset = 1, textInput('factoryName4', span(id = "factory",'Role Name'), value="")), 
   
   column(1, 
          numericInput("factoryRole4", span(id = "factory","Role4 (%)"), value = defaultFactoryRole4,  min = 0, max = 100,

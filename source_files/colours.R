@@ -8,7 +8,7 @@ purple <- "#750787"
 palette <- c(red, tan, yellow, green, blue, purple)
 
 colourMap <- c("civils" = red, 
-               "MEH" = green,
+               "meh" = green,
                "operations" = blue,
                "manufacturing" = tan,
                "workforce" = purple)
