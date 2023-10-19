@@ -42,19 +42,127 @@ inv_sigmoid <- Vectorize(function(x, limit, start,  width) {
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   
-   plot_df_units  <- reactive({
+  observe({
+    
+   # civilsName1 <- sub(" ", "_", input$civilsName1)
+   # print(civilsName1)
+    #print(df_units_all())
+    print(mehDataframe())
+    
+  })
+  
+   df_units_civils  <- reactive({
+     
+     
    #  df_units <- df_units()
      df_units %>%
         mutate(civils = input$civ_peak * input$civ_width * sqrt(2*pi) * 
                  dsn(time, xi=input$civ_pos, omega =input$civ_width , alpha = input$civ_skew)) %>% 
-       mutate(civils = input$civ_peak/max(civils)*civils) %>%#, input$civ_width)) %>%
-       mutate(MEH = input$meh_peak * input$meh_width * sqrt(2*pi) * 
+       mutate(civils = input$civ_peak/max(civils)*civils) })
+   
+   
+   #%>%#, input$civ_width)) %>%
+       
+    #  mutate(!!sym(civilsName1) := civils*input$civilsRole1) %>%
+       
+    df_units_meh <-reactive({
+      df_units %>%
+       mutate(meh = input$meh_peak * input$meh_width * sqrt(2*pi) * 
                 dsn(time, xi=input$meh_pos, omega =input$meh_width , alpha = input$meh_skew)) %>% 
-       mutate(MEH = input$meh_peak/max(MEH)*MEH) %>%
-       mutate(operations = sigmoid(time, input$operations_limit, input$operations_pos, input$operations_width)) %>%
-       mutate(workforce = civils + MEH + operations) %>%
-      pivot_longer(cols = c(civils, MEH, workforce, operations), names_to = "discipline", values_to = "value") 
-    }) 
+       mutate(meh = input$meh_peak/max(meh)*meh) }) 
+    
+    df_units_operations <- reactive({
+      df_units %>%
+       mutate(operations = sigmoid(time, input$operations_limit, input$operations_pos, input$operations_width)) })
+    
+    df_units_all <- reactive({
+      df1 <- df_units_civils() 
+      
+      df2 <- df_units_meh() %>%
+        select(-time) 
+      
+      df3 <- df_units_operations() %>%
+        select(-time)
+      
+      cbind(df1, df2, df3)
+    })
+       
+    plot_df_units <- reactive({
+      df_units_all() %>%  
+        mutate(workforce = civils + meh + operations) %>%
+        pivot_longer(cols = c(civils, meh, workforce, operations), names_to = "discipline", values_to = "value") 
+    })
+     #print(df_units)
+     #return(df_units)
+     
+   
+   civilsDataframe <- reactive({
+
+     df <- df_units_civils()
+
+     civilsName1 <- sub(" ", "_", input$civilsName1)
+     civilsName2 <- sub(" ", "_", input$civilsName2)
+     civilsName3 <- sub(" ", "_", input$civilsName3)
+     civilsName4 <- sub(" ", "_", input$civilsName4)
+
+     if (nchar(civilsName1)>0)  { #check a name exists
+     df <- df %>%
+       mutate(!!sym(civilsName1) := input$civilsRole1/100*civils) 
+     }
+     
+     if (nchar(civilsName2)>0)  {
+     df <- df %>%
+       mutate(!!sym(civilsName2) := input$civilsRole2/100*civils) 
+     }
+     
+     if (nchar(civilsName3)>0)  {
+       df <- df %>%
+         mutate(!!sym(civilsName3) := input$civilsRole3/100*civils) 
+     }
+     
+     if (nchar(civilsName4)>0)  {
+       df <- df %>%
+         mutate(!!sym(civilsName4) := input$civilsRole4/100*civils) 
+     }
+
+     return(df)
+
+   })
+   
+   
+   mehDataframe <- reactive({
+     
+     df <- df_units_meh()
+     
+     mehName1 <- sub(" ", "_", input$mehName1)
+     mehName2 <- sub(" ", "_", input$mehName2)
+     mehName3 <- sub(" ", "_", input$mehName3)
+     mehName4 <- sub(" ", "_", input$mehName4)
+     
+     if (nchar(mehName1)>0)  { #check a name exists
+       df <- df %>%
+         mutate(!!sym(mehName1) := input$mehRole1/100*meh) 
+     }
+     
+     if (nchar(mehName2)>0)  {
+       df <- df %>%
+         mutate(!!sym(mehName2) := input$mehRole2/100*meh) 
+     }
+     
+     if (nchar(mehName3)>0)  {
+       df <- df %>%
+         mutate(!!sym(mehName3) := input$mehRole3/100*meh) 
+     }
+     
+     if (nchar(mehName4)>0)  {
+       df <- df %>%
+         mutate(!!sym(mehName4) := input$mehRole4/100*meh) 
+     }
+     
+     return(df)
+     
+   })
+   
    
    
    plot_df_factory  <- reactive({
