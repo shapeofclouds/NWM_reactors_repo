@@ -239,7 +239,7 @@ output$dl <- downloadHandler(
          mutate(!!sym(paste0(mehName4, "_L34")) := !!sym(mehName4) * input$mehRole4_L34/100) %>%
          mutate(!!sym(paste0(mehName4, "_L56")) := !!sym(mehName4) * input$mehRole4_L56/100) %>%
          mutate(!!sym(paste0(mehName4, "_L78")) := !!sym(mehName4) * input$mehRole4_L78/100) %>%
-         select(-(!!sym(mehName4)), -meh)  
+         select(-(!!sym(mehName4)))  
      }
      
      df <- df %>%
@@ -313,14 +313,16 @@ output$dl <- downloadHandler(
       rbind(civilsDataframe(), mehDataframe(), operationsDataframe()) %>%
         mutate(value = round(value,0)) %>%
         group_by(time, discipline) %>%
-        summarise(value = sum(value))
+        summarise(value = sum(value)) %>%
+        ungroup() %>%
+        complete(time, discipline, fill= list(value = 0))
     })
     
     combined_L12 <- reactive({
       combined() %>%
         filter(grepl("_L12", discipline)) %>%
         mutate(discipline = str_replace(discipline,"_L12", "")) %>%
-        pivot_wider(names_from = discipline, values_from = value)
+        pivot_wider(names_from = discipline, values_from = value) 
     })
     
         combined_L34 <- reactive({
