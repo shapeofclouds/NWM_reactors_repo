@@ -187,24 +187,10 @@ fluidPage(
                         value = 2.3)),
             
             
-            downloadButton("dl", "Download")
-         #   column(2,
-                   
-                   #numericInput("civil_frac", "Civils (%)", value = 100,  min = 0, max = 100,
-                   #             width = '100px'),  
-                   
-                   #hr(),
-                   
-                   #numericInput("mech_frac", "Mechanical (%)", value = 100,  min = 0, max = 100,
-                   #             width = '100px'),
-                   
-                   
-                   
-           # )
-            
+            downloadButton("dl_unit", "Unit"),
+            downloadButton("dl_factory", "factory")
         )),
 
-        
         # Show a plot of the generated distribution
         mainPanel(
             plotOutput("distPlot"),
@@ -225,7 +211,7 @@ fluidPage(
                             
                         ),
 ##Civils####                        
-            column(1,textInput('civilsName1', span(id = "civils",'Role Name'), value="Major Civils")),
+            column(1,textInput('civilsName1', span(id = "civils",'Role Name'), value="Role1")),
              
           #  tags$span("#mechrole1_frac {color : red;}"),
             
@@ -249,7 +235,7 @@ fluidPage(
             fluidRow(
               ####             
               
-             column(1, offset = 1, textInput('civilsName2', span(id = "civils", 'Role Name'), value="Minor Civils")),   
+             column(1, offset = 1, textInput('civilsName2', span(id = "civils", 'Role Name'), value="Role2")),   
             
              column(1, 
                     numericInput("civilsRole2", span(id = "civils", "Role2 (%)"), value = defaultCivilsLRole2,  min = 0, max = 100,
@@ -272,7 +258,7 @@ fluidPage(
        
  fluidRow(
  
-   column(1, offset = 1, textInput('civilsName3', span(id = "civils", 'Role Name'), value="Tunneling")), 
+   column(1, offset = 1, textInput('civilsName3', span(id = "civils", 'Role Name'), value="Role3")), 
  
    column(1, 
           numericInput("civilsRole3", span(id = "civils", "Role3 (%)"), value = defaultCivilsLRole3,  min = 0, max = 100,
@@ -296,7 +282,7 @@ fluidPage(
  
  fluidRow(
    
-   column(1, offset = 1, textInput('civilsName4', span(id = "civils", 'Role Name'), value="")), 
+   column(1, offset = 1, textInput('civilsName4', span(id = "civils", 'Role Name'), value="Role4")), 
    
    column(1, 
           numericInput("civilsRole4", span(id = "civils", "Role4 (%)"), value = defaultCivilsLRole4,  min = 0, max = 100,
@@ -319,7 +305,7 @@ fluidPage(
  fluidRow(column(1,
                  strong(id = "meh", "MEH")),
           
-          column(1,textInput('mehName1', span(id = "meh", 'Role Name'), value="Major Civils")),
+          column(1,textInput('mehName1', span(id = "meh", 'Role Name'), value="Role5")),
           
           column(1,
                  numericInput("mehRole1", span(id = "meh", "Role1 (%)"), value = defaultMEHRole1,  min = 0, max = 100,
@@ -343,7 +329,7 @@ fluidPage(
  fluidRow(
    ####             
    
-   column(1, offset = 1, textInput('mehName2', span(id = "meh",'Role Name'), value="Minor Civils")),   
+   column(1, offset = 1, textInput('mehName2', span(id = "meh",'Role Name'), value="Role6")),   
    
    column(1, 
           numericInput("mehRole2", span(id = "meh","Role2 (%)"), value = defaultMEHRole2,  min = 0, max = 100,
@@ -366,7 +352,7 @@ fluidPage(
  
  fluidRow(
    
-   column(1, offset = 1, textInput('mehName3', span(id = "meh",'Role Name'), value="Tunneling")), 
+   column(1, offset = 1, textInput('mehName3', span(id = "meh",'Role Name'), value="Role7")), 
    
    column(1, 
           numericInput("mehRole3", span(id = "meh","Role3 (%)"), value = defaultMEHRole3,  min = 0, max = 100,
@@ -390,7 +376,7 @@ fluidPage(
  
  fluidRow(
    
-   column(1, offset = 1, textInput('mehName4', span(id = "meh",'Role Name'), value="")), 
+   column(1, offset = 1, textInput('mehName4', span(id = "meh",'Role Name'), value="Role8")), 
    
    column(1, 
           numericInput("mehRole4", span(id = "meh","Role4 (%)"), value = defaultMEHRole4,  min = 0, max = 100,
@@ -414,7 +400,7 @@ fluidPage(
  fluidRow(column(1,
                  strong(id = "operations", "Ops")),
           
-          column(1,textInput('operationsName1', span(id = "operations", 'Role Name'), value="Generation")),
+          column(1,textInput('operationsName1', span(id = "operations", 'Role Name'), value="Role9")),
           
           column(1,
                  numericInput("operationsRole1", span(id = "operations", "Role1 (%)"), value = defaultOpsRole1,  min = 0, max = 100,
@@ -438,7 +424,7 @@ fluidPage(
  fluidRow(
    ####             
    
-   column(1, offset = 1, textInput('operationsName2', span(id = "operations",'Role Name'), value="Minor Civils")),   
+   column(1, offset = 1, textInput('operationsName2', span(id = "operations",'Role Name'), value="Role10")),   
    
    column(1, 
           numericInput("operationsRole2", span(id = "operations","Role2 (%)"), value = defaultOpsRole2,  min = 0, max = 100,
@@ -461,7 +447,7 @@ fluidPage(
  
  fluidRow(
    
-   column(1, offset = 1, textInput('operationsName3', span(id = "operations",'Role Name'), value="Tunneling")), 
+   column(1, offset = 1, textInput('operationsName3', span(id = "operations",'Role Name'), value="Role11")), 
    
    column(1, 
           numericInput("operationsRole3", span(id = "operations","Role3 (%)"), value = defaultOpsRole3,  min = 0, max = 100,
@@ -485,7 +471,7 @@ fluidPage(
  
  fluidRow(
    
-   column(1, offset = 1, textInput('operationsName4', span(id = "operations",'Role Name'), value="")), 
+   column(1, offset = 1, textInput('operationsName4', span(id = "operations",'Role Name'), value="Role12")), 
    
    column(1, 
           numericInput("operationsRole4", span(id = "operations","Role4 (%)"), value = defaultOpsRole4,  min = 0, max = 100,
@@ -509,7 +495,7 @@ fluidPage(
 fluidRow(column(1,
                 strong(id = "factory", "Ops")),
          
-         column(1,textInput('factoryName1', span(id = "factory", 'Role Name'), value="Major Civils")),
+         column(1,textInput('factoryName1', span(id = "factory", 'Role Name'), value="Role13")),
          
          column(1,
                 numericInput("factoryRole1", span(id = "factory", "Role1 (%)"), value = defaultFactoryRole1,  min = 0, max = 100,
@@ -518,22 +504,22 @@ fluidRow(column(1,
          
          
          column(1,
-                numericInput("factoryRole1_L12", span(id = "factory", "Role1 L12 (%)"), value = defaultOpsL12,  min = 0, max = 100,
+                numericInput("factoryRole1_L12", span(id = "factory", "Role1 L12 (%)"), value = defaultFactoryL12,  min = 0, max = 100,
                              width = '100px')),
          column(1,
-                numericInput("factoryRole1_L34", span(id = "factory","Role1 L34 (%)"), value = defaultOpsL34,  min = 0, max = 100,
+                numericInput("factoryRole1_L34", span(id = "factory","Role1 L34 (%)"), value = defaultFactoryL34,  min = 0, max = 100,
                              width = '100px')),
          column(1,
-                numericInput("factoryRole1_L56", span(id = "factory","Role1 L56 (%)"), value = defaultOpsL56,  min = 0, max = 100,
+                numericInput("factoryRole1_L56", span(id = "factory","Role1 L56 (%)"), value = defaultFactoryL56,  min = 0, max = 100,
                              width = '100px')),
          column(1,
-                numericInput("factoryRole1_L78", span(id = "factory","Role1 L78 (%)"), value = defaultOpsL78,  min = 0, max = 100,
+                numericInput("factoryRole1_L78", span(id = "factory","Role1 L78 (%)"), value = defaultFactoryL78,  min = 0, max = 100,
                              width = '100px'))),
 
 fluidRow(
   ####             
   
-  column(1, offset = 1, textInput('factoryName2', span(id = "factory",'Role Name'), value="Minor Civils")),   
+  column(1, offset = 1, textInput('factoryName2', span(id = "factory",'Role Name'), value="Role14")),   
   
   column(1, 
          numericInput("factoryRole2", span(id = "factory","Role2 (%)"), value = defaultFactoryRole2,  min = 0, max = 100,
@@ -541,22 +527,22 @@ fluidRow(
   
   
   column(1,
-         numericInput("factoryRole2_L12", span(id = "factory","Role2 L12 (%)"), value = defaultOpsL12,  min = 0, max = 100,
+         numericInput("factoryRole2_L12", span(id = "factory","Role2 L12 (%)"), value = defaultFactoryL12,  min = 0, max = 100,
                       width = '100px')),
   column(1,
-         numericInput("mfactoryRole2_L34", span(id = "factory","Role2 L34 (%)"), value = defaultOpsL34,  min = 0, max = 100,
+         numericInput("factoryRole2_L34", span(id = "factory","Role2 L34 (%)"), value = defaultFactoryL34,  min = 0, max = 100,
                       width = '100px')),
   column(1,
-         numericInput("factoryRole2_L56", span(id = "factory","Role2 L56 (%)"), value = defaultOpsL56,  min = 0, max = 100,
+         numericInput("factoryRole2_L56", span(id = "factory","Role2 L56 (%)"), value = defaultFactoryL56,  min = 0, max = 100,
                       width = '100px')),
   column(1,
-         numericInput("factoryRole2_L78", span(id = "factory","Role2 L78 (%)"), value = defaultOpsL78,  min = 0, max = 100,
+         numericInput("factoryRole2_L78", span(id = "factory","Role2 L78 (%)"), value = defaultFactoryL78,  min = 0, max = 100,
                       width = '100px'))),
 ####        
 
 fluidRow(
   
-  column(1, offset = 1, textInput('factoryName3', span(id = "factory",'Role Name'), value="Tunneling")), 
+  column(1, offset = 1, textInput('factoryName3', span(id = "factory",'Role Name'), value="Role15")), 
   
   column(1, 
          numericInput("factoryRole3", span(id = "factory","Role3 (%)"), value = defaultFactoryRole3,  min = 0, max = 100,
@@ -580,7 +566,7 @@ fluidRow(
 
 fluidRow(
   
-  column(1, offset = 1, textInput('factoryName4', span(id = "factory",'Role Name'), value="")), 
+  column(1, offset = 1, textInput('factoryName4', span(id = "factory",'Role Name'), value="Role16")), 
   
   column(1, 
          numericInput("factoryRole4", span(id = "factory","Role4 (%)"), value = defaultFactoryRole4,  min = 0, max = 100,

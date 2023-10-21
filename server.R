@@ -47,47 +47,50 @@ inv_sigmoid <- Vectorize(function(x, limit, start,  width) {
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   
-  # wb <- createWorkbook()
-  # addWorksheet(wb, sheetName = "sheet1")
-  # writeData(wb, sheet = 1, x = combined_L12, startCol = 1, startRow = 1)
-  # writeData(wb, sheet = 2, x = combined_L34, startCol = 1, startRow = 1)
-  # writeData(wb, sheet = 3, x = combined_L56, startCol = 1, startRow = 1)
-  # writeData(wb, sheet = 4, x = combined_L78, startCol = 1, startRow = 1)
-  
-  wb <- createWorkbook()
-  addWorksheet(wb, sheetName = "L12")
-  addWorksheet(wb, sheetName = "L34")
-  addWorksheet(wb, sheetName = "L56")
-  addWorksheet(wb, sheetName = "L78")
+  wbUnit <- createWorkbook()
+  addWorksheet(wbUnit, sheetName = "L12")
+  addWorksheet(wbUnit, sheetName = "L34")
+  addWorksheet(wbUnit, sheetName = "L56")
+  addWorksheet(wbUnit, sheetName = "L78")
   
 
-output$dl <- downloadHandler(
+output$dl_unit <- downloadHandler(
     filename = function() {
-      paste0("example", ".xlsx")
+      paste0("Unit", ".xlsx")
     },
     content = function(file) {
-      saveWorkbook(wb, file = file, overwrite = TRUE)
+      saveWorkbook(wbUnit, file = file, overwrite = TRUE)
     }
   )
   
+wbFactory <- createWorkbook()
+addWorksheet(wbFactory, sheetName = "L12")
+addWorksheet(wbFactory, sheetName = "L34")
+addWorksheet(wbFactory, sheetName = "L56")
+addWorksheet(wbFactory, sheetName = "L78")
+
+output$dl_factory <- downloadHandler(
+  filename = function() {
+    paste0("Factory", ".xlsx")
+  },
+  content = function(file) {
+    saveWorkbook(wbUnit, file = file, overwrite = TRUE)
+  }
+)
     
   
   
-  observe({
+  observe({ #create workbook
     
-   # civilsName1 <- sub(" ", "_", input$civilsName1)
-   # print(civilsName1)
-    write_csv(combined_L12(), "combined.csv")
-    print( civilsDataframe())
+    writeData(wbUnit, sheet = 1, x = combined_L12(), startCol = 1, startRow = 1)
+    writeData(wbUnit, sheet = 2, x = combined_L34(), startCol = 1, startRow = 1)
+    writeData(wbUnit, sheet = 3, x = combined_L56(), startCol = 1, startRow = 1)
+    writeData(wbUnit, sheet = 4, x = combined_L78(), startCol = 1, startRow = 1)
     
-    
-    
-    writeData(wb, sheet = 1, x = combined_L12(), startCol = 1, startRow = 1)
-    writeData(wb, sheet = 2, x = combined_L34(), startCol = 1, startRow = 1)
-    writeData(wb, sheet = 3, x = combined_L56(), startCol = 1, startRow = 1)
-    writeData(wb, sheet = 4, x = combined_L78(), startCol = 1, startRow = 1)
-    
-    #, mehDataframe(), operationsDataframe())
+    writeData(wbFactory, sheet = 1, x = factory_L12(), startCol = 1, startRow = 1)
+    writeData(wbFactory, sheet = 2, x = factory_L34(), startCol = 1, startRow = 1)
+    writeData(wbFactory, sheet = 3, x = factory_L56(), startCol = 1, startRow = 1)
+    writeData(wbFactory, sheet = 4, x = factory_L78(), startCol = 1, startRow = 1)
     
   })
   
@@ -107,6 +110,13 @@ output$dl <- downloadHandler(
   df_units_operations <- reactive({
       df_units %>%
        mutate(operations = sigmoid(time, input$operations_limit, input$operations_pos, input$operations_width)) })
+  
+  df_units_factory  <- reactive({
+    #  df_units <- df_units()
+    df_factory %>%
+      mutate(factory = sigmoid(time, input$factory_limit, input$factory_pos, input$factory_width)) #%>%
+     # pivot_longer(cols = c(manufacturing), names_to = "discipline", values_to = "value") 
+  }) 
     
   df_units_all <- reactive({ #just for display
       df1 <- df_units_civils() 
@@ -149,7 +159,7 @@ output$dl <- downloadHandler(
        mutate(!!sym(paste0(civilsName1, "_L34")) := !!sym(civilsName1) * input$civilsRole1_L34/100) %>%
        mutate(!!sym(paste0(civilsName1, "_L56")) := !!sym(civilsName1) * input$civilsRole1_L56/100) %>%
        mutate(!!sym(paste0(civilsName1, "_L78")) := !!sym(civilsName1) * input$civilsRole1_L78/100) %>%
-       select(-(!!sym(civilsName1)))
+       select(-(!!sym(civilsName1))) 
      }
      
      if (nchar(civilsName2)>0)  {
@@ -298,8 +308,9 @@ output$dl <- downloadHandler(
          mutate(!!sym(paste0(operationsName4, "_L34")) := !!sym(operationsName4) * input$operationsRole4_L34/100) %>%
          mutate(!!sym(paste0(operationsName4, "_L56")) := !!sym(operationsName4) * input$operationsRole4_L56/100) %>%
          mutate(!!sym(paste0(operationsName4, "_L78")) := !!sym(operationsName4) * input$operationsRole4_L78/100) %>%
-         select(-(!!sym(operationsName4)), operations)
+         select(-(!!sym(operationsName4)))
      }
+     
      
       df <- df %>%
         select(-operations) %>%
@@ -308,9 +319,67 @@ output$dl <- downloadHandler(
      return(df)
      
    })
+   
+   factoryDataframe <- reactive({
+     
+     df <- df_units_factory()
+     
+     factoryName1 <- sub(" ", "_", input$factoryName1)
+     factoryName2 <- sub(" ", "_", input$factoryName2)
+     factoryName3 <- sub(" ", "_", input$factoryName3)
+     factoryName4 <- sub(" ", "_", input$factoryName4)
+     
+     if (nchar(factoryName1)>0)  { #check a name exists
+       df <- df %>%
+         mutate(!!sym(factoryName1) := input$factoryRole1/100*factory) %>%
+         mutate(!!sym(paste0(factoryName1, "_L12")) := !!sym(factoryName1) * input$factoryRole1_L12/100) %>%
+         mutate(!!sym(paste0(factoryName1, "_L34")) := !!sym(factoryName1) * input$factoryRole1_L34/100) %>%
+         mutate(!!sym(paste0(factoryName1, "_L56")) := !!sym(factoryName1) * input$factoryRole1_L56/100) %>%
+         mutate(!!sym(paste0(factoryName1, "_L78")) := !!sym(factoryName1) * input$factoryRole1_L78/100) %>%
+         select(-(!!sym(factoryName1)))
+     }
+     
+     if (nchar(factoryName2)>0)  {
+       df <- df %>%
+         mutate(!!sym(factoryName2) := input$factoryRole2/100*factory) %>%
+         mutate(!!sym(paste0(factoryName2, "_L12")) := !!sym(factoryName2) * input$factoryRole2_L12/100) %>%
+         mutate(!!sym(paste0(factoryName2, "_L34")) := !!sym(factoryName2) * input$factoryRole2_L34/100) %>%
+         mutate(!!sym(paste0(factoryName2, "_L56")) := !!sym(factoryName2) * input$factoryRole2_L56/100) %>%
+         mutate(!!sym(paste0(factoryName2, "_L78")) := !!sym(factoryName2) * input$factoryRole2_L78/100) %>%
+         select(-(!!sym(factoryName2))) 
+     }
+     
+     if (nchar(factoryName3)>0)  {
+       df <- df %>%
+         mutate(!!sym(factoryName3) := input$factoryRole3/100*factory) %>%
+         mutate(!!sym(paste0(factoryName3, "_L12")) := !!sym(factoryName3) * input$factoryRole3_L12/100) %>%
+         mutate(!!sym(paste0(factoryName3, "_L34")) := !!sym(factoryName3) * input$factoryRole3_L34/100) %>%
+         mutate(!!sym(paste0(factoryName3, "_L56")) := !!sym(factoryName3) * input$factoryRole3_L56/100) %>%
+         mutate(!!sym(paste0(factoryName3, "_L78")) := !!sym(factoryName3) * input$factoryRole3_L78/100)  %>%
+         select(-(!!sym(factoryName3))) 
+     }
+     
+     if (nchar(factoryName4)>0)  {
+       df <- df %>%
+         mutate(!!sym(factoryName4) := input$factoryRole4/100*factory) %>%
+         mutate(!!sym(paste0(factoryName4, "_L12")) := !!sym(factoryName4) * input$factoryRole4_L12/100) %>%
+         mutate(!!sym(paste0(factoryName4, "_L34")) := !!sym(factoryName4) * input$factoryRole4_L34/100) %>%
+         mutate(!!sym(paste0(factoryName4, "_L56")) := !!sym(factoryName4) * input$factoryRole4_L56/100) %>%
+         mutate(!!sym(paste0(factoryName4, "_L78")) := !!sym(factoryName4) * input$factoryRole4_L78/100) %>%
+         select(-(!!sym(factoryName4)))
+     }
+     
+     df <- df %>%
+       select(-factory) %>%
+       pivot_longer(cols = (2:ncol(.)), names_to = "discipline", values_to = "value")%>%
+       as.data.frame()
+     return(df)
+     
+   })
 
-    combined <- reactive({
-      rbind(civilsDataframe(), mehDataframe(), operationsDataframe()) %>%
+    unitCombined <- reactive({
+      rbind(civilsDataframe(), mehDataframe(), operationsDataframe(), factoryDataframe()) %>%
+       # mutate()
         mutate(value = round(value,0)) %>%
         group_by(time, discipline) %>%
         summarise(value = sum(value)) %>%
@@ -319,28 +388,66 @@ output$dl <- downloadHandler(
     })
     
     combined_L12 <- reactive({
-      combined() %>%
+      unitCombined() %>%
         filter(grepl("_L12", discipline)) %>%
         mutate(discipline = str_replace(discipline,"_L12", "")) %>%
         pivot_wider(names_from = discipline, values_from = value) 
     })
     
         combined_L34 <- reactive({
-      combined() %>%
+      unitCombined() %>%
         filter(grepl("_L34", discipline)) %>%
         mutate(discipline = str_replace(discipline,"_L34", ""))%>%
             pivot_wider(names_from = discipline, values_from = value)
     })
    
     combined_L56 <- reactive({
-      combined() %>%
+      unitCombined() %>%
         filter(grepl("_L56", discipline)) %>%
         mutate(discipline = str_replace(discipline,"_L56", "")) %>%
         pivot_wider(names_from = discipline, values_from = value)
     })
     
     combined_L78 <- reactive({
-      combined() %>%
+      unitCombined() %>%
+        filter(grepl("_L78", discipline)) %>%
+        mutate(discipline = str_replace(discipline,"_L78", ""))%>%
+        pivot_wider(names_from = discipline, values_from = value)
+    })
+    
+    
+    factoryCombined <- reactive({
+      factoryDataframe() %>%
+        mutate(value = round(value,0)) %>%
+        group_by(time, discipline) %>%
+        summarise(value = sum(value)) %>%
+        ungroup() %>%
+        complete(time, discipline, fill= list(value = 0))
+    })
+    
+    factory_L12 <- reactive({
+      factoryCombined() %>%
+        filter(grepl("_L12", discipline)) %>%
+        mutate(discipline = str_replace(discipline,"_L12", "")) %>%
+        pivot_wider(names_from = discipline, values_from = value) 
+    })
+    
+    factory_L34 <- reactive({
+      factoryCombined() %>%
+        filter(grepl("_L34", discipline)) %>%
+        mutate(discipline = str_replace(discipline,"_L34", ""))%>%
+        pivot_wider(names_from = discipline, values_from = value)
+    })
+    
+    factory_L56 <- reactive({
+      factoryCombined() %>%
+        filter(grepl("_L56", discipline)) %>%
+        mutate(discipline = str_replace(discipline,"_L56", "")) %>%
+        pivot_wider(names_from = discipline, values_from = value)
+    })
+    
+    factory_L78 <- reactive({
+      factoryCombined() %>%
         filter(grepl("_L78", discipline)) %>%
         mutate(discipline = str_replace(discipline,"_L78", ""))%>%
         pivot_wider(names_from = discipline, values_from = value)

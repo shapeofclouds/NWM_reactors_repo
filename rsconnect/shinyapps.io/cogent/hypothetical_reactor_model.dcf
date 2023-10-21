@@ -5,5 +5,5 @@ account: cogent
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 10192805
-bundleId: 7825434
+bundleId: 7831542
 url: https://cogent.shinyapps.io/hypothetical_reactor_model/
