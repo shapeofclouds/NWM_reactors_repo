@@ -74,7 +74,7 @@ output$dl_factory <- downloadHandler(
     paste0("Factory", ".xlsx")
   },
   content = function(file) {
-    saveWorkbook(wbUnit, file = file, overwrite = TRUE)
+    saveWorkbook(wbFactory, file = file, overwrite = TRUE)
   }
 )
     
@@ -82,15 +82,58 @@ output$dl_factory <- downloadHandler(
   
   observe({ #create workbook
     
-    writeData(wbUnit, sheet = 1, x = combined_L12(), startCol = 1, startRow = 1)
-    writeData(wbUnit, sheet = 2, x = combined_L34(), startCol = 1, startRow = 1)
-    writeData(wbUnit, sheet = 3, x = combined_L56(), startCol = 1, startRow = 1)
-    writeData(wbUnit, sheet = 4, x = combined_L78(), startCol = 1, startRow = 1)
+    unitFile_L12 <- combined_L12() %>%
+      mutate(Status = if_else(time>input$operations_pos, "Operations", "Construction"))
+    tmp <- factory_L12()
+    unitFile_L12[setdiff(colnames(tmp), names(unitFile_L12))] <- 0 # pad out with variables (roles) from factory with 0s
+    writeData(wbUnit, sheet = 1, x = unitFile_L12, startCol = 1, startRow = 1)
     
-    writeData(wbFactory, sheet = 1, x = factory_L12(), startCol = 1, startRow = 1)
-    writeData(wbFactory, sheet = 2, x = factory_L34(), startCol = 1, startRow = 1)
-    writeData(wbFactory, sheet = 3, x = factory_L56(), startCol = 1, startRow = 1)
-    writeData(wbFactory, sheet = 4, x = factory_L78(), startCol = 1, startRow = 1)
+    unitFile_L34 <- combined_L34()
+    tmp <- factory_L34()
+    unitFile_L34[setdiff(colnames(tmp), names(unitFile_L34))] <- 0
+    writeData(wbUnit, sheet = 2, x = unitFile_L12, startCol = 1, startRow = 1)
+    
+    unitFile_L56 <- combined_L56()
+    tmp <- factory_L56()
+    unitFile_L56[setdiff(colnames(tmp), names(unitFile_L56))] <- 0
+    writeData(wbUnit, sheet = 3, x = unitFile_L12, startCol = 1, startRow = 1)
+    
+    unitFile_L78 <- combined_L78()
+    tmp <- factory_L78()
+    unitFile_L78[setdiff(colnames(tmp), names(unitFile_L78))] <- 0
+    writeData(wbUnit, sheet = 4, x = unitFile_L12, startCol = 1, startRow = 1)
+    
+   # writeData(wbUnit, sheet = 2, x = combined_L34(), startCol = 1, startRow = 1)
+  #  writeData(wbUnit, sheet = 3, x = combined_L56(), startCol = 1, startRow = 1)
+  #  writeData(wbUnit, sheet = 4, x = combined_L78(), startCol = 1, startRow = 1)
+    
+    
+    
+    
+    factoryFile_L12 <- factory_L12()
+    tmp <- combined_L12()
+    factoryFile_L12[setdiff(colnames(tmp), names(factoryFile_L12))] <- 0 # pad out with variables (roles) from factory with 0s
+    writeData(wbFactory, sheet = 1, x = factoryFile_L12, startCol = 1, startRow = 1)
+    
+    factoryFile_L34 <- factory_L34()
+    tmp <- combined_L34()
+    factoryFile_L34[setdiff(colnames(tmp), names(factoryFile_L34))] <- 0
+    writeData(wbFactory, sheet = 2, x = factoryFile_L34, startCol = 1, startRow = 1)
+    
+    factoryFile_L56 <- factory_L56()
+    tmp <- combined_L56()
+    factoryFile_L56[setdiff(colnames(tmp), names(factoryFile_L56))] <- 0
+    writeData(wbFactory, sheet = 3, x = factoryFile_L56, startCol = 1, startRow = 1)
+    
+    factoryFile_L78 <- factory_L78()
+    tmp <- combined_L78()
+    factoryFile_L78[setdiff(colnames(tmp), names(factoryFile_L78))] <- 0
+    writeData(wbFactory, sheet = 4, x = factoryFile_L78, startCol = 1, startRow = 1) 
+    
+    # writeData(wbFactory, sheet = 1, x = factory_L12(), startCol = 1, startRow = 1)
+    # writeData(wbFactory, sheet = 2, x = factory_L34(), startCol = 1, startRow = 1)
+    # writeData(wbFactory, sheet = 3, x = factory_L56(), startCol = 1, startRow = 1)
+    # writeData(wbFactory, sheet = 4, x = factory_L78(), startCol = 1, startRow = 1)
     
   })
   
@@ -378,7 +421,7 @@ output$dl_factory <- downloadHandler(
    })
 
     unitCombined <- reactive({
-      rbind(civilsDataframe(), mehDataframe(), operationsDataframe(), factoryDataframe()) %>%
+      rbind(civilsDataframe(), mehDataframe(), operationsDataframe()) %>%
        # mutate()
         mutate(value = round(value,0)) %>%
         group_by(time, discipline) %>%
@@ -476,6 +519,19 @@ output$factoryPlot  <- renderPlot({
     scale_color_manual(values = colourMap)
     })
         # generate bins based on input$bins from ui.R
+output$ratio <- renderText({
+  Factory <- plot_df_factory() %>%
+    group_by(time) %>%
+    summarise(value = sum(value))
+  
+  
+  Units <- plot_df_units() %>%
+    group_by(time) %>%
+    summarise(value = sum(value))
+  
+  ratio <- as.character(round(max(Factory)*100/(max(Units)+max(Factory)), 1))
+})
+
 }
 
 

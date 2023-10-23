@@ -9,6 +9,7 @@
 
 library(shiny)
 library(openxlsx)
+library(bslib)
 
 source("./source_files/colours.R", local = TRUE)
 
@@ -169,7 +170,7 @@ fluidPage(
             sliderInput("factory_limit",
                         "Factory max:",
                         min = 0,
-                        max = 2000,
+                        max = 3000,
                         value = 1400),
             
             sliderInput("factory_pos",
@@ -188,13 +189,18 @@ fluidPage(
             
             
             downloadButton("dl_unit", "Unit"),
-            downloadButton("dl_factory", "factory")
+            downloadButton("dl_factory", "factory"),
+            h5("Ratio Factory / Total (%): "),
+            textOutput("ratio", inline = TRUE)
+    
+           # value_box(title = "Factory/total (%)", value = textOutput("ratio"), width =1)
         )),
 
         # Show a plot of the generated distribution
         mainPanel(
             plotOutput("distPlot"),
             plotOutput("factoryPlot")
+           
             
         ),
         
