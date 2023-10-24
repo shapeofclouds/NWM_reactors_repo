@@ -1,11 +1,3 @@
- #
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 
 library(shiny)
 library(tidyverse)
@@ -75,70 +67,150 @@ output$dl_factory <- downloadHandler(
   }
 )
 
-  
 observe({ #create workbook
 ## Pad Unit and Factory dataframes with missing roles so that both contain the full set    
 ##Unit Padding ####
+    ## Unit L12
     unitFile_L12 <- combined_L12() %>%
       mutate(Status = if_else(time>input$operations_pos, "Generation", "Construction")) 
+    
     tmp <- factory_L12() 
+    
     unitFile_L12[setdiff(colnames(tmp), names(unitFile_L12))] <- 0 # pad out with variables (roles) from factory with 0s
+    
+    colnames(unitFile_L12) <- tolower(colnames(unitFile_L12)) 
+    
+    unitFile_L12 <- unitFile_L12 %>%  
+      rename(Status = status) %>%
+      relocate(Status, .after = last_col()) 
+    
+      
     deleteData(wbUnit, sheet = 1, cols=1:500, rows = 1:500, gridExpand = TRUE) # remove any earlier data which will remain if not written over
     writeData(wbUnit, sheet = 1, x = unitFile_L12, startCol = 1, startRow = 1)
-    
+
+    ## Unit L34    
     unitFile_L34 <- combined_L34() %>%
       mutate(Status = if_else(time>input$operations_pos, "Generation", "Construction"))
+    
     tmp <- factory_L34()
+    
     unitFile_L34[setdiff(colnames(tmp), names(unitFile_L34))] <- 0
+    
+    colnames(unitFile_L34) <- tolower(colnames(unitFile_L34))
+    
+    unitFile_L34 <- unitFile_L34 %>%  
+      rename(Status = status)%>%
+      relocate(Status, .after = last_col()) 
+    
     deleteData(wbUnit, sheet = 2, cols=1:500, rows = 1:500, gridExpand = TRUE) # remove any earlier data which will remain if not written over
     writeData(wbUnit, sheet = 2, x = unitFile_L34, startCol = 1, startRow = 1)
     
+    ## Unit L56
     unitFile_L56 <- combined_L56() %>%
       mutate(Status = if_else(time>input$operations_pos, "Generation", "Construction"))
+    
     tmp <- factory_L56()
+    
     unitFile_L56[setdiff(colnames(tmp), names(unitFile_L56))] <- 0
+    
+    colnames(unitFile_L56) <- tolower(colnames(unitFile_L56))
+    
+    unitFile_L56 <- unitFile_L56 %>%  
+      rename(Status = status) %>%
+     relocate(Status, .after = last_col()) 
+    
     deleteData(wbUnit, sheet = 3, cols=1:500, rows = 1:500, gridExpand = TRUE) # remove any earlier data which will remain if not written over
     writeData(wbUnit, sheet = 3, x = unitFile_L56, startCol = 1, startRow = 1)
     
+    ## Unit L78
     unitFile_L78 <- combined_L78() %>%
       mutate(Status = if_else(time>input$operations_pos, "Generation", "Construction"))
+    
     tmp <- factory_L78()
+    
     unitFile_L78[setdiff(colnames(tmp), names(unitFile_L78))] <- 0
+    
+    colnames(unitFile_L78) <- tolower(colnames(unitFile_L78))
+    
+    unitFile_L78 <- unitFile_L78 %>%  
+      rename(Status = status) %>%
+      relocate(Status, .after = last_col()) 
+    
     deleteData(wbUnit, sheet = 4, cols=1:500, rows = 1:500, gridExpand = TRUE) # remove any earlier data which will remain if not written over
     writeData(wbUnit, sheet = 4, x = unitFile_L78, startCol = 1, startRow = 1)
     
  ##Factory padding#### 
     
+    ## Factory L12
     factoryFile_L12 <- factory_L12() %>%
       mutate(Status = "Construction")
+    
     tmp <- combined_L12()
+    
     factoryFile_L12[setdiff(colnames(tmp), names(factoryFile_L12))] <- 0 # pad out with variables (roles) from factory with 0s
+    
+    colnames(factoryFile_L12) <- tolower(colnames(factoryFile_L12))
+    
+    factoryFile_L12 <- factoryFile_L12 %>%  
+      rename(Status = status) %>%
+      relocate(Status, .after = last_col()) 
+    
     deleteData(wbFactory, sheet = 1, cols=1:500, rows = 1:500, gridExpand = TRUE) # remove any earlier data which will remain if not written over
     writeData(wbFactory, sheet = 1, x = factoryFile_L12, startCol = 1, startRow = 1)
     
+    ## Factory L34
     factoryFile_L34 <- factory_L34() %>%
       mutate(Status = "Construction")
+    
     tmp <- combined_L34()
+    
     factoryFile_L34[setdiff(colnames(tmp), names(factoryFile_L34))] <- 0
+    
+    colnames(factoryFile_L34) <- tolower(colnames(factoryFile_L34))
+    
+    factoryFile_L34 <- factoryFile_L34 %>%  
+      rename(Status = status) %>%
+      relocate(Status, .after = last_col()) 
+    
     deleteData(wbFactory, sheet = 2, cols=1:500, rows = 1:500, gridExpand = TRUE) # remove any earlier data which will remain if not written over
     writeData(wbFactory, sheet = 2, x = factoryFile_L34, startCol = 1, startRow = 1)
     
+    ## Factory L56
     factoryFile_L56 <- factory_L56() %>%
       mutate(Status = "Construction")
+    
     tmp <- combined_L56()
+    
     factoryFile_L56[setdiff(colnames(tmp), names(factoryFile_L56))] <- 0
-    deleteData(wbFactory, sheet = 2, cols=1:500, rows = 1:500, gridExpand = TRUE) # remove any earlier data which will remain if not written over
+    
+    colnames(factoryFile_L56) <- tolower(colnames(factoryFile_L56))
+    
+    factoryFile_L56 <- factoryFile_L56 %>%  
+      rename(Status = status) %>%
+      relocate(Status, .after = last_col()) 
+    
+    deleteData(wbFactory, sheet = 3, cols=1:500, rows = 1:500, gridExpand = TRUE) # remove any earlier data which will remain if not written over
     writeData(wbFactory, sheet = 3, x = factoryFile_L56, startCol = 1, startRow = 1)
     
+    ## Factory L78
     factoryFile_L78 <- factory_L78() %>%
       mutate(Status = "Construction")
+    
     tmp <- combined_L78()
+    
     factoryFile_L78[setdiff(colnames(tmp), names(factoryFile_L78))] <- 0
-    deleteData(wbFactory, sheet = 2, cols=1:500, rows = 1:500, gridExpand = TRUE) # remove any earlier data which will remain if not written over
+    
+    colnames(factoryFile_L78) <- tolower(colnames(factoryFile_L78))
+    
+    factoryFile_L78 <- factoryFile_L78 %>%  
+      rename(Status = status) %>%
+      relocate(Status, .after = last_col())  
+    
+    deleteData(wbFactory, sheet = 4, cols=1:500, rows = 1:500, gridExpand = TRUE) # remove any earlier data which will remain if not written over
     writeData(wbFactory, sheet = 4, x = factoryFile_L78, startCol = 1, startRow = 1) 
     
   })
-  
+###  
    df_units_civils  <- reactive({
 
      df_units %>%
@@ -186,11 +258,11 @@ observe({ #create workbook
       #summarise(value = sum(value)) #sum 
     })
 
-     
-   
    civilsDataframe <- reactive({
 
-     df <- df_units_civils()
+     df <- df_units_civils() %>%
+       filter(time/3 == as.integer(time/3))
+     
 
      civilsName1 <- sub(" ", "_", input$civilsName1)
      civilsName2 <- sub(" ", "_", input$civilsName2)
@@ -250,7 +322,8 @@ observe({ #create workbook
 
    mehDataframe <- reactive({
 
-     df <- df_units_meh()
+     df <- df_units_meh()  %>%
+       filter(time/3 == as.integer(time/3))
 
      mehName1 <- sub(" ", "_", input$mehName1)
      mehName2 <- sub(" ", "_", input$mehName2)
@@ -309,7 +382,8 @@ observe({ #create workbook
    
    operationsDataframe <- reactive({
      
-     df <- df_units_operations()
+     df <- df_units_operations()  %>%
+       filter(time/3 == as.integer(time/3))
      
      operationsName1 <- sub(" ", "_", input$operationsName1)
      operationsName2 <- sub(" ", "_", input$operationsName2)
@@ -367,7 +441,8 @@ observe({ #create workbook
    
    factoryDataframe <- reactive({
      
-     df <- df_units_factory()
+     df <- df_units_factory()  %>%
+       filter(time/3 == as.integer(time/3))
      
      factoryName1 <- sub(" ", "_", input$factoryName1)
      factoryName2 <- sub(" ", "_", input$factoryName2)

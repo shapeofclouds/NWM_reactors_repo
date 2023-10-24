@@ -45,9 +45,9 @@ defaultOpsL56 <- 5
 defaultOpsL78 <- 5
 
 defaultFactoryRole1 <- 20
-defaultFactoryRole2 <- 25
-defaultFactoryRole3 <- 30
-defaultFactoryRole4 <- 25
+defaultFactoryRole2 <- 60
+defaultFactoryRole3 <- 20
+defaultFactoryRole4 <- 0
 
 defaultFactoryL12 <- 25
 defaultFactoryL34 <- 45
@@ -572,7 +572,7 @@ fluidRow(
 
 fluidRow(
   
-  column(1, offset = 1, textInput('factoryName4', span(id = "factory",'Role Name'), value="Role16")), 
+  column(1, offset = 1, textInput('factoryName4', span(id = "factory",'Role Name'), value="")), 
   
   column(1, 
          numericInput("factoryRole4", span(id = "factory","Role4 (%)"), value = defaultFactoryRole4,  min = 0, max = 100,
