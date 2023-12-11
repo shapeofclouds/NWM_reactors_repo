@@ -592,7 +592,7 @@ observe({ #create workbook
    }) 
       #  order()
 output$distPlot  <- renderPlot({
-      ggplot(data = plot_df_units(), aes(x=time, y=value, color = discipline), group = discipline) + geom_line(size = 1.5) + 
+      ggplot(data = plot_df_units(), aes(x=time, y=value, color = discipline), group = discipline) + geom_line(linewidth = 1.5) + 
     font_themes + ylab("Workforce") + xlab("Time/Months") + 
     scale_color_manual(values = colourMap)
 
@@ -601,7 +601,7 @@ output$distPlot  <- renderPlot({
 
 
 output$factoryPlot  <- renderPlot({
-  ggplot(data = plot_df_factory(), aes(x=time, y=value, color = discipline), group = discipline) + geom_line(size = 1.5) + 
+  ggplot(data = plot_df_factory(), aes(x=time, y=value, color = discipline), group = discipline) + geom_line(linewidth = 1.5) + 
     font_themes + ylab("Workforce") + xlab("Time/Months") + #ylim(0, 1000) + 
     scale_color_manual(values = colourMap)
     })
