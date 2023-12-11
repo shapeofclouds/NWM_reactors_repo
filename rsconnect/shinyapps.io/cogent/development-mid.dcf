@@ -1,0 +1,9 @@
+name: development-mid
+title: development-mid
+username:
+account: cogent
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9898444
+bundleId: 7815192
+url: https://cogent.shinyapps.io/development-mid/

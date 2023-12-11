@@ -1,0 +1,11 @@
+name: nssgcritmap
+title: nssgcritmap
+username:
+account: cogent
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9381010
+bundleId: 7403224
+url: https://cogent.shinyapps.io/nssgcritmap/
+when: 1688066595.10206
+lastSyncTime: 1688066595.10209

@@ -1,0 +1,9 @@
+name: development
+title: development
+username:
+account: cogent
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9224121
+bundleId: 7791572
+url: https://cogent.shinyapps.io/development/
